@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Table(name = "comment")
@@ -30,6 +32,10 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
+
+
     public void update(String content) {
         this.content = content;
     }
@@ -40,5 +46,9 @@ public class Comment extends Timestamped{
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public void addCommentLike(CommentLike commentLike){
+        commentLikes.add(commentLike);
     }
 }
