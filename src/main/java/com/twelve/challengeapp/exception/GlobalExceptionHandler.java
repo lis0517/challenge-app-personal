@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twelve.challengeapp.util.ErrorResponse;
+import com.twelve.challengeapp.util.ErrorResponseFactory;
+
 @ControllerAdvice
 @RestController
 public class GlobalExceptionHandler {
@@ -23,72 +26,69 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(UsernameNotFoundException.class)
-	public ResponseEntity<String> handleUsernameNotFoundException(Exception ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(Exception ex) {
+		return ErrorResponseFactory.notFound(ex.getMessage());
 	}
 
 	@ExceptionHandler(TokenNotFoundException.class)
-	public ResponseEntity<String> handleTokenNotFoundException(TokenNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleTokenNotFoundException(TokenNotFoundException ex) {
+		return ErrorResponseFactory.notFound(ex.getMessage());
 	}
 
 	@ExceptionHandler(DuplicateUsernameException.class)
-	public ResponseEntity<String> handleDuplicateUsernameException(DuplicateUsernameException ex) {
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleDuplicateUsernameException(DuplicateUsernameException ex) {
+		return  ErrorResponseFactory.badRequest(ex.getMessage());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
 		List<String> errors = new ArrayList<>();
 		ex.getBindingResult().getAllErrors().forEach(error -> {
 			String errorMessage = error.getDefaultMessage();
 			errors.add(errorMessage);
 		});
 
-		Map<String, Object> body = new LinkedHashMap<>();
-		body.put("status", HttpStatus.BAD_REQUEST.value());
-		body.put("errors", errors);
-
-		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+		String message = String.join(", ", errors);
+		return ErrorResponseFactory.badRequest(message);
 	}
 
 	@ExceptionHandler(PasswordMismatchException.class)
-	public ResponseEntity<String> handlePasswordMismatchException(PasswordMismatchException ex) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handlePasswordMismatchException(PasswordMismatchException ex) {
+		return ErrorResponseFactory.unauthorized(ex.getMessage());
 	}
 
 	@ExceptionHandler(UsernameMismatchException.class)
-	public ResponseEntity<String> handleUsernameMismatchException(UsernameMismatchException ex) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleUsernameMismatchException(UsernameMismatchException ex) {
+		return ErrorResponseFactory.unauthorized(ex.getMessage());
 	}
 
 	@ExceptionHandler(UserWithdrawalException.class)
-	public ResponseEntity<String> handleUserWithdrawalException(UserWithdrawalException ex) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleUserWithdrawalException(UserWithdrawalException ex) {
+		return ErrorResponseFactory.unauthorized(ex.getMessage());
 	}
 
 	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
+		return ErrorResponseFactory.notFound(ex.getMessage());
 	}
 
 	@ExceptionHandler(AlreadyAdminException.class)
-	public ResponseEntity<String> handleAlreadyAdminException(AlreadyAdminException ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleAlreadyAdminException(AlreadyAdminException ex) {
+		return ErrorResponseFactory.badRequest(ex.getMessage());
 	}
 
 	@ExceptionHandler(UserDeletedException.class)
-	public ResponseEntity<String> handleUserDeletedException(UserDeletedException ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleUserDeletedException(UserDeletedException ex) {
+		return ErrorResponseFactory.badRequest(ex.getMessage());
 	}
 
 	@ExceptionHandler(CommentNotFoundException.class)
-	public ResponseEntity<String> handleCommentNotFoundException(CommentNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleCommentNotFoundException(CommentNotFoundException ex) {
+		return ErrorResponseFactory.notFound(ex.getMessage());
 	}
 
 	@ExceptionHandler(SelfCommentException.class)
-	public ResponseEntity<String> handleSelfCommentException(SelfCommentException ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	public ResponseEntity<ErrorResponse> handleSelfCommentException(SelfCommentException ex) {
+		return ErrorResponseFactory.badRequest(ex.getMessage());
 	}
 }
