@@ -69,7 +69,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 		if (userPasswordRecordList.size() >= 3) {
 			UserPasswordRecord oldPassword = userPasswordRepository.findByUserIdAndCreatedAt(userDetails.getUserId(),
 				userPasswordRecordList.get(2).getCreatedAt());
-			user.removePasswordRecord(oldPassword);
+			userPasswordRepository.delete(oldPassword);
 		}
 
 		userRepository.save(user);
