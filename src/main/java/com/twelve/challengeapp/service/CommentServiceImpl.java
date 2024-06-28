@@ -77,9 +77,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new UnauthorizedException("You are not authorized to delete this comment");
 		}
 
-		Post post = comment.getPost();
-		user.removeComment(comment);
-		post.removeComment(comment);
+		commentRepository.delete(comment);
 	}
 
 	@Override

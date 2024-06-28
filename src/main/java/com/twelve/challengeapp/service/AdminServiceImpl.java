@@ -99,10 +99,6 @@ public class AdminServiceImpl implements AdminService {
 	public void deletePost(Long postId) {
 		Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException("Post not found"));
 
-		Long userId = post.getUser().getId();
-		User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
-
-		user.removePost(post);
 		postRepository.delete(post);
 	}
 
@@ -129,10 +125,6 @@ public class AdminServiceImpl implements AdminService {
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CommentNotFoundException("Comment not found"));
 
-		User user = comment.getUser();
-		Post post = comment.getPost();
-
-		user.removeComment(comment);
-		post.removeComment(comment);
+		commentRepository.delete(comment);
 	}
 }

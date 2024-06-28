@@ -74,6 +74,6 @@ public class PostServiceImpl implements PostService {
 			throw new SecurityException("You are not authorized to delete this post");
 		}
 
-		user.removePost(post);
+		postRepository.delete(post);
 	}
 }
