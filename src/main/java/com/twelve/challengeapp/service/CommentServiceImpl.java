@@ -87,4 +87,10 @@ public class CommentServiceImpl implements CommentService {
 			.map(CommentResponseDto::new)
 			.collect(Collectors.toList());
 	}
+
+	@Override
+	public CommentResponseDto getComment(Long commentId) {
+		return commentRepository.findCommentWithLikeCount(commentId)
+			.orElseThrow(() -> new CommentNotFoundException("Comment not found"));
+	}
 }
