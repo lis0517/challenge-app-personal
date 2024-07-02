@@ -46,8 +46,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostResponseDto getPost(Long id) {
-		Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("Post not found"));
-		return new PostResponseDto(post);
+		return postRepository.findPostWithLikeCount(id).orElseThrow(
+			() -> new PostNotFoundException("Post not found"));
 	}
 
 	@Override
