@@ -76,4 +76,10 @@ public class PostServiceImpl implements PostService {
 
 		postRepository.delete(post);
 	}
+
+	@Override
+	public Page<PostResponseDto> getLikedPosts(Long userId, Pageable pageable){
+		return postRepository.findLikedPostsByUserId(userId, pageable);
+	}
+
 }
