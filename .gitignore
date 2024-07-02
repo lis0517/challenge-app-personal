@@ -37,3 +37,6 @@ out/
 .vscode/
 
 application-secret.properties
+
+### QueryDSL ###
+src/main/generated/

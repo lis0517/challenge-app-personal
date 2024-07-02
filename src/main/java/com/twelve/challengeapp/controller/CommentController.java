@@ -58,4 +58,11 @@ public class CommentController {
 		List<CommentResponseDto> responseDtos = commentService.getCommentsByPostId(postId);
 		return SuccessResponseFactory.ok(responseDtos);
 	}
+
+	@GetMapping("/comments/{commentId}")
+	public ResponseEntity<?> getComment(@PathVariable Long commentId) {
+		CommentResponseDto responseDto = commentService.getComment(commentId);
+		return SuccessResponseFactory.ok(responseDto);
+	}
+
 }
