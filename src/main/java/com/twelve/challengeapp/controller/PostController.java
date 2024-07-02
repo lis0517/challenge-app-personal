@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,4 +71,13 @@ public class PostController {
 		postService.deletePost(postId, userId);
 		return SuccessResponseFactory.noContent();
 	}
+
+	@GetMapping("/liked")
+	public ResponseEntity<?> getLikedPosts(@AuthenticationPrincipal UserDetailsImpl userDetails,
+		@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		Long userId = userDetails.getUserId();
+		Page<PostResponseDto> likedPosts = postService.getLikedPosts(userId, pageable);
+		return SuccessResponseFactory.ok(likedPosts);
+	}
+
 }
