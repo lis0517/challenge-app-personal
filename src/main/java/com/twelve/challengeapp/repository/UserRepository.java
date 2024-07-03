@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.twelve.challengeapp.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
 
 	Optional<User> findByUsername(String username);
 
