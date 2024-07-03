@@ -49,8 +49,8 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 		QPostLike postLike = QPostLike.postLike;
 
 		List<PostResponseDto> posts = queryFactory.select(
-			Projections.constructor(PostResponseDto.class,post.id, post.user.username, post.title, post.content,
-				post.createdAt, post.updatedAt, postLike.id.count().intValue()))
+				Projections.constructor(PostResponseDto.class, post.id, post.user.username, post.title, post.content,
+					post.createdAt, post.updatedAt, postLike.id.count().intValue()))
 			.from(postLike)
 			.join(postLike.post, post)
 			.where(postLike.user.id.eq(userId))
@@ -60,8 +60,7 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 			.limit(pageable.getPageSize())
 			.fetch();
 
-		JPAQuery<Long> countQuery = queryFactory.select(
-			post.id.countDistinct())
+		JPAQuery<Long> countQuery = queryFactory.select(post.id.countDistinct())
 			.from(postLike)
 			.join(postLike.post, post)
 			.where(postLike.user.id.eq(userId));

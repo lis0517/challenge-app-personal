@@ -3,6 +3,8 @@ package com.twelve.challengeapp.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,5 +94,10 @@ public class CommentServiceImpl implements CommentService {
 	public CommentResponseDto getComment(Long commentId) {
 		return commentRepository.findCommentWithLikeCount(commentId)
 			.orElseThrow(() -> new CommentNotFoundException("Comment not found"));
+	}
+
+	@Override
+	public Page<CommentResponseDto> getLikedComments(Long userId, Pageable pageable) {
+		return commentRepository.findLikedCommentsByUserId(userId, pageable);
 	}
 }

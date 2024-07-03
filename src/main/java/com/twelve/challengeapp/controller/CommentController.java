@@ -2,6 +2,10 @@ package com.twelve.challengeapp.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.twelve.challengeapp.dto.CommentRequestDto;
 import com.twelve.challengeapp.dto.CommentResponseDto;
+import com.twelve.challengeapp.dto.PagedResponseDto;
 import com.twelve.challengeapp.jwt.UserDetailsImpl;
 import com.twelve.challengeapp.service.CommentService;
 import com.twelve.challengeapp.util.SuccessResponseFactory;
@@ -65,4 +70,10 @@ public class CommentController {
 		return SuccessResponseFactory.ok(responseDto);
 	}
 
+	@GetMapping("/comments/liked")
+	public ResponseEntity<?> getLikedComments(@AuthenticationPrincipal UserDetailsImpl userDetails,
+		@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+		Page<CommentResponseDto> likedComments = commentService.getLikedComments(userDetails.getUserId(), pageable);
+		return SuccessResponseFactory.ok(new PagedResponseDto<>(likedComments));
+	}
 }

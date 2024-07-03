@@ -2,6 +2,9 @@ package com.twelve.challengeapp.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.twelve.challengeapp.dto.CommentResponseDto;
 import com.twelve.challengeapp.entity.User;
 
@@ -15,4 +18,6 @@ public interface CommentService {
 	List<CommentResponseDto> getCommentsByPostId(Long postId);
 
 	CommentResponseDto getComment(Long commentId);
+
+	Page<CommentResponseDto> getLikedComments(Long userId, Pageable pageable);
 }
