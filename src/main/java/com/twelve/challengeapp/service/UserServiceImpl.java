@@ -52,10 +52,8 @@ public class UserServiceImpl implements UserService {
 
 	//회원 정보
 	@Override
-	public UserResponseDto getUser(UserDetailsImpl userDetails) {
-
-		return new UserResponseDto(userDetails.getUsername(), userDetails.getNickname(), userDetails.getIntroduce(),
-			userDetails.getEmail());
+	public UserResponseDto getUser(Long userId) {
+		return userRepository.getUserProfile(userId);
 	}
 
 	//회원 정보 수정
@@ -71,8 +69,7 @@ public class UserServiceImpl implements UserService {
 
 		userRepository.save(user);
 
-		return new UserResponseDto(userDetails.getUsername(), userDetails.getNickname(), userDetails.getIntroduce(),
-			userDetails.getEmail());
+		return userRepository.getUserProfile(user.getId());
 	}
 
 	//회원 탈퇴

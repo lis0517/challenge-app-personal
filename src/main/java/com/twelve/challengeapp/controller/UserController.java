@@ -29,7 +29,7 @@ public class UserController {
 
 	@GetMapping
 	public ResponseEntity<?> getUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-		UserResponseDto userInfo = userService.getUser(userDetails);
+		UserResponseDto userInfo = userService.getUser(userDetails.getUserId());
 		return SuccessResponseFactory.ok(userInfo);
 	}
 
