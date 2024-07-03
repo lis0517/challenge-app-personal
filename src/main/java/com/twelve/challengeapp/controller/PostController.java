@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.twelve.challengeapp.dto.PagedResponseDto;
 import com.twelve.challengeapp.dto.PostRequestDto;
 import com.twelve.challengeapp.dto.PostResponseDto;
 import com.twelve.challengeapp.jwt.UserDetailsImpl;
@@ -51,7 +52,7 @@ public class PostController {
 	public ResponseEntity<?> getPosts(
 		@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 		Page<PostResponseDto> posts = postService.getPosts(pageable);
-		return SuccessResponseFactory.ok(posts);
+		return SuccessResponseFactory.ok(new PagedResponseDto<>(posts));
 	}
 
 	// 선택 게시글 수정
@@ -75,9 +76,8 @@ public class PostController {
 	@GetMapping("/liked")
 	public ResponseEntity<?> getLikedPosts(@AuthenticationPrincipal UserDetailsImpl userDetails,
 		@PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
-		Long userId = userDetails.getUserId();
-		Page<PostResponseDto> likedPosts = postService.getLikedPosts(userId, pageable);
-		return SuccessResponseFactory.ok(likedPosts);
+		Page<PostResponseDto> likedPosts = postService.getLikedPosts(userDetails.getUserId(), pageable);
+		return SuccessResponseFactory.ok(new PagedResponseDto<>(likedPosts));
 	}
 
 }
