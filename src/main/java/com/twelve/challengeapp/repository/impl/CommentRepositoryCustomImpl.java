@@ -64,9 +64,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
 
 		JPAQuery<Long> countQuery = queryFactory.select(comment.id.countDistinct())
 			.from(commentLike)
-			.join(commentLike.comment, comment)
-			.where(commentLike.user.id.eq(userId))
-			.groupBy(comment.id);
+			.where(commentLike.user.id.eq(userId));
 
 		return PageableExecutionUtils.getPage(comments, pageable, countQuery::fetchOne);
 	}

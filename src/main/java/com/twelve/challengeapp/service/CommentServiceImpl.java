@@ -45,9 +45,6 @@ public class CommentServiceImpl implements CommentService {
 
 		Comment comment = Comment.builder().content(content).user(user).build();
 
-		user.addComment(comment);
-		post.addComment(comment);
-
 		commentRepository.flush();
 
 		return new CommentResponseDto(comment);
