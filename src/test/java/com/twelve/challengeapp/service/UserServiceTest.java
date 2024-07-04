@@ -96,8 +96,12 @@ public class UserServiceTest {
 
 	@Test
 	void getUser_Success() {
+		// Given
+		UserResponseDto expectedResponseDto = new UserResponseDto(TEST_USERNAME, TEST_NICKNAME, TEST_INTRO, TEST_EMAIL);
+		when(userRepository.getUserProfile(anyLong())).thenReturn(expectedResponseDto);
+
 		// When
-		UserResponseDto responseDto = userService.getUser(userDetails);
+		UserResponseDto responseDto = userService.getUser(userDetails.getUserId());
 
 		// Then
 		assertAll(() -> assertEquals(TEST_USERNAME, responseDto.getUsername()),
@@ -116,9 +120,11 @@ public class UserServiceTest {
 			.nickname(newNickname)
 			.introduce(newIntro)
 			.build();
+		UserResponseDto expectedResponseDto = new UserResponseDto(TEST_USERNAME, newNickname, newIntro, TEST_EMAIL);
 
 		when(passwordEncoder.matches(any(), any())).thenReturn(true);
 		when(userRepository.save(any(User.class))).thenReturn(user);
+		when(userRepository.getUserProfile(anyLong())).thenReturn(expectedResponseDto);
 
 		// When
 		UserResponseDto responseDto = userService.editUser(editDto, userDetails);
@@ -195,7 +201,6 @@ public class UserServiceTest {
 	@Test
 	void passwordEncryption() {
 		// Given
-		when(userRepository.existsByUsername(any())).thenReturn(false);
 		when(passwordEncoder.encode(any())).thenReturn(ENCODED_PASSWORD);
 
 		// When

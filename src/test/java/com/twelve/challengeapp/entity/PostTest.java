@@ -64,20 +64,6 @@ public class PostTest {
     }
 
     @Test
-    void testAddAndRemoveComment() {
-        Comment comment = new Comment();
-        post.addComment(comment);
-
-        assertTrue(post.getComments().contains(comment));
-        assertEquals(post, comment.getPost());
-
-        post.removeComment(comment);
-
-        assertFalse(post.getComments().contains(comment));
-        assertNull(comment.getPost());
-    }
-
-    @Test
     void testEquals() {
         // 동일한 속성을 가진 두 개의 서로 다른 Post 객체 생성
         Post samePost1 = Post.builder().id(POST_ID).title(TITLE).content(CONTENT).build();

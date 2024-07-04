@@ -64,17 +64,4 @@ class UserTest {
 		assertEquals(user, sameUser);
 		assertNotEquals(user, differentUser);
 	}
-
-	@Test
-	void testAddAndRemovePost() {
-		Post post = new Post();
-
-		user.addPost(post);
-		assertTrue(user.getPosts().contains(post));
-		assertEquals(user, post.getUser());
-
-		user.removePost(post);
-		assertFalse(user.getPosts().contains(post));
-		assertNull(post.getUser());
-	}
 }

@@ -119,7 +119,7 @@ class UserControllerTest {
 	@Test
 	void getUser_Success() throws Exception {
 		// Given
-		when(userService.getUser(any(UserDetailsImpl.class))).thenReturn(userResponseDto);
+		when(userService.getUser(anyLong())).thenReturn(userResponseDto);
 
 		// When
 		ResultActions resultActions = mockMvc.perform(
@@ -132,7 +132,7 @@ class UserControllerTest {
 			.andExpect(jsonPath("$.data.introduce").value(TEST_INTRO))
 			.andExpect(jsonPath("$.data.email").value(TEST_EMAIL));
 
-		verify(userService).getUser(any(UserDetailsImpl.class));
+		verify(userService).getUser(anyLong());
 	}
 
 	@Test

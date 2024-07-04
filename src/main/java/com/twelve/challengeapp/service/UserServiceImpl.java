@@ -34,17 +34,18 @@ public class UserServiceImpl implements UserService {
 			throw new DuplicateUsernameException("Duplicate username.");
 		}
 
+		String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+
 		User user = User.builder()
 			.username(requestDto.getUsername())
-			.password(passwordEncoder.encode(requestDto.getPassword()))
+			.password(encodedPassword)
 			.nickname(requestDto.getNickname())
 			.introduce(requestDto.getIntroduce())
 			.email(requestDto.getEmail())
 			.role(UserRole.USER)
 			.build();
 
-		UserPasswordRecord userPasswordRecord = new UserPasswordRecord(
-			passwordEncoder.encode(requestDto.getPassword()));
+		UserPasswordRecord userPasswordRecord = new UserPasswordRecord(encodedPassword);
 		user.addPasswordRecord(userPasswordRecord);
 
 		userRepository.save(user);
