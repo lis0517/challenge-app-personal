@@ -53,7 +53,7 @@ public class Post extends Timestamped {
 		this.content = content;
 	}
 
-	void setUser(User user) {
+	public void setUser(User user) {
 		this.user = user;
 		if (user != null) {
 			user.getPosts().add(this);
@@ -66,7 +66,7 @@ public class Post extends Timestamped {
 	}
 
 	public void addPostLike(PostLike postLike) {
-        this.postLikes.add(postLike);
+		this.postLikes.add(postLike);
 	}
 
 	@Override
