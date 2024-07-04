@@ -60,9 +60,8 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 			.limit(pageable.getPageSize())
 			.fetch();
 
-		JPAQuery<Long> countQuery = queryFactory.select(post.id.countDistinct())
+		JPAQuery<Long> countQuery = queryFactory.select(post.id.count())
 			.from(postLike)
-			.join(postLike.post, post)
 			.where(postLike.user.id.eq(userId));
 
 		return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);

@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.twelve.challengeapp.dto.CommentResponseDto;
-import com.twelve.challengeapp.dto.PostResponseDto;
 import com.twelve.challengeapp.entity.Comment;
 import com.twelve.challengeapp.entity.CommentLike;
 import com.twelve.challengeapp.entity.Post;
@@ -120,7 +119,8 @@ public class CommentRepositoryCustomTest {
 		Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdAt"));
 
 		// When
-		Page<CommentResponseDto> result = commentRepositoryCustom.findLikedCommentsByUserId(likeOwner.getId(), pageable);
+		Page<CommentResponseDto> result = commentRepositoryCustom.findLikedCommentsByUserId(likeOwner.getId(),
+			pageable);
 
 		//Then
 		assertEquals(3, result.getContent().size());
