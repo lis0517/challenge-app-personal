@@ -42,7 +42,7 @@ public class UserController {
 	}
 
 	@DeleteMapping
-	public ResponseEntity<SuccessResponse<Void>> withdraw(@RequestBody @Valid UserRequestDto.Withdrawal requestDto,
+	public ResponseEntity<?> withdraw(@RequestBody @Valid UserRequestDto.Withdrawal requestDto,
 														  @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 		userService.withdraw(requestDto, userDetails);
